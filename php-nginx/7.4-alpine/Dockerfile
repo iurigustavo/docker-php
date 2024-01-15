@@ -21,7 +21,10 @@ RUN apk update && \
         zlib \
         openssl \
         unixodbc-dev \
-        supervisor
+        supervisor \
+        procps \
+        nano \
+        cron
 
 ENV NGINX_VERSION=1.20.2
 

@@ -27,7 +27,10 @@ RUN apk update && \
         acl \
         libcrypto3>=3.0.8-r0 \
         libxml2-dev \
-        supervisor
+        supervisor \
+        procps \
+        nano \
+        cron
 
 ENV NGINX_VERSION=1.24.0
 

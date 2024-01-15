@@ -1,4 +1,4 @@
-FROM registry-gitlab.portovelho.ro.gov.br/desis/registry/alpine:3.16
+FROM iurigustavo/alpine-3.16
 
 ## Install dependencies
 RUN apk update && \

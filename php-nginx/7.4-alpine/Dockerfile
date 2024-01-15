@@ -270,7 +270,9 @@ COPY ./contrib/ /opt/app-root
 
 ## Setup Supervisor
 RUN mkdir -p /etc/supervisor/conf.d && \
-    cp /opt/app-root/etc/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
+    chown -R default:root /etc/supervisor/conf.d && \
+    cp /opt/app-root/etc/supervisor/supervisord.conf /etc/supervisor/supervisord.conf && \
+    mkdir -p /var/log/supervisor
 
 RUN mkdir -p /etc/php-fpm.d/ && \
     mkdir -p /etc/php.d/ && \
@@ -284,7 +286,9 @@ RUN mkdir /tmp/sessions && \
     mkdir /tmp/log && \
     mkdir /tmp/proxy && \
     mkdir /tmp/sessions/opcache && \
-    touch /tmp/log/xdebug.log && \
+    mkdir -p /var/log/supervisor
+
+RUN touch /tmp/log/xdebug.log && \
     touch /var/log/newrelic && \
     touch /var/log/nginx/access.log && \
     touch /var/log/nginx/error.log && \
@@ -294,9 +298,10 @@ RUN mkdir /tmp/sessions && \
     chown -R default:root /opt/app-root && \
     chown -R default:root /etc/php* && \
     chown -R default:root /etc/newrelic && \
-    chown -R default:root /tmp && \
-    chmod -R a+rwx /tmp && \
-    chmod -R a+rwx /var/log/nginx /var/log/newrelic && \
+    chown -R default:root /tmp
+
+RUN chmod -R a+rwx /tmp && \
+    chmod -R a+rwx /var/log/nginx /var/log/newrelic /var/log/supervisor && \
     chmod -R ug+rwx /opt/app-root && \
     chmod -R ug+rwx /etc/php* && \
     chmod +x /opt/app-root/services.sh

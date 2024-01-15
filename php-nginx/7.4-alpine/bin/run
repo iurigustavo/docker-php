@@ -102,10 +102,12 @@ if [ -n "${NEW_RELIC_LICENSE_KEY}" ] && [ -n "${NEW_RELIC_APPNAME}" ]; then
     newrelic-daemon
 fi
 
-if [ -f ci/"${ENV_ALIAS}" ]; then
-  echo "## Found '${ENV_ALIAS}'"
-  chmod +x "${HOME}"/ci/"${ENV_ALIAS}"
-  "${HOME}"/ci/"${ENV_ALIAS}"
+if [ -n "${ASSEMBLE}" ]; then
+  if [ -f "${HOME}"/"${ASSEMBLE}" ]; then
+    echo "## Found '${HOME}/${ASSEMBLE}'"
+    chmod +x "${HOME}"/"${ASSEMBLE}"
+    "${HOME}"/"${ASSEMBLE}"
+  fi
 fi
 
 exec /opt/app-root/services.sh

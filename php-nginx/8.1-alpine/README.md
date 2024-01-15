@@ -31,6 +31,7 @@ services:
       - "8080:8080"
     environment:
       ENV_ALIAS: dev
+      ASSEMBLE: docker/assemble
       DOCUMENTROOT: /opt/app-root/src/public
       XDEBUG_ENABLE: 0
       XDEBUG_CLIENT_HOST: <ip-da-máquina-host>

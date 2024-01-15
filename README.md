@@ -42,6 +42,7 @@ services:
       - "8080:8080"
     environment:
       ENV_ALIAS: dev
+      ASSEMBLE: docker/assemble
       DOCUMENTROOT: /opt/app-root/src/public
       XDEBUG_ENABLE: 0
       XDEBUG_CLIENT_HOST: <ip-da-máquina-host>
@@ -54,8 +55,19 @@ O arquivo `bin/run` pode ser modificado para customizar diversas configurações
 
 É aconselhado realizar a alteração dos valores utilizados através da declaração das variáveis no arquivo `run`, dessa forma o projeto sempre será executado utilizando os mesmos valores, ao invés de utilizar variáveis de ambiente. Salvo as variáveis que precisam ser declaradas no `docker-compose.yaml` para ativação de alguma extensão, ex.: `MEMCACHED_ENABLE`.
 
-A image executará automaticamente: `"${HOME}"/docker/"${ENV_ALIAS}"`
+A image executará automaticamente: `"${HOME}"/"${ASSEMBLE}"`
 
+Exemplo `docker/assemble`:
+
+```shell
+#!/bin/sh
+
+php artisan migrate --force
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan storage:link
+```
 PHP Settings:
 
 ```shell

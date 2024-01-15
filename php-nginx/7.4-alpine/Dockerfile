@@ -23,8 +23,7 @@ RUN apk update && \
         unixodbc-dev \
         supervisor \
         procps \
-        nano \
-        cron
+        nano
 
 ENV NGINX_VERSION=1.20.2
 

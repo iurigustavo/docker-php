@@ -29,8 +29,7 @@ RUN apk update && \
         libxml2-dev \
         supervisor \
         procps \
-        nano \
-        cron
+        nano
 
 ENV NGINX_VERSION=1.24.0
 

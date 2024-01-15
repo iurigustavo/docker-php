@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -e
+
+if [ "${ENV_ALIAS}" == 'dev' ]; then
+  export IS_DEV_ENV=true
+else
+  export IS_DEV_ENV=false
+fi
+
+if $IS_DEV_ENV; then
+  if [ -f composer.json ]; then
+    echo "## Found 'composer.json'"
+
+    if [ ! -f composer.lock ]; then
+      echo -e "## WARNING: Please, add a 'composer.lock' file into your repository.\n"
+    fi
+
+    [ ! -d "vendor" ] && composer install --no-interaction --no-ansi --optimize-autoloader
+  fi
+fi
+
+"$STI_SCRIPTS_PATH"/run

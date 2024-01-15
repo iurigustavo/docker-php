@@ -1,0 +1,31 @@
+server {
+    server_name _;
+    listen 8080 default_server;
+    listen [::]:8080 default_server;
+
+    access_log /dev/stdout;
+    proxy_temp_path /tmp/proxy;
+
+    root ${DOCUMENTROOT};
+    index index.php index.html index.htm app.php;
+
+    location / {
+        try_files $uri $uri/ /index.php$is_args$args;
+        proxy_temp_path /tmp/proxy;
+    }
+
+    location ~ \.php$ {
+        try_files $uri /index.php =404;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME ${DOCUMENTROOT}$fastcgi_script_name;
+        include fastcgi_params;
+        proxy_temp_path /tmp/proxy;
+    }
+
+    location ~* ^.+\.(css|js|ogg|ogv|svg|svgz|eot|otf|woff|woff2|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|webp)$ {
+        access_log ${NGINX_ASSETS_LOG};
+        log_not_found ${NGINX_ASSETS_NOT_FOUND_LOG};
+        expires ${NGINX_ASSETS_EXPIRATION};
+    }
+}

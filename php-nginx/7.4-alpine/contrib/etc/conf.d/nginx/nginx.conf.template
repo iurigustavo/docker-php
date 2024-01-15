@@ -1,0 +1,48 @@
+worker_processes     ${NGINX_WORKER_PROCESSES};
+worker_cpu_affinity  ${NGINX_WORKER_CPU_AFFINITY};
+
+daemon     off;
+error_log  /dev/stdout;
+pid        /tmp/nginx.pid;
+
+events {
+    worker_connections  ${NGINX_WORKER_CONNECTIONS};
+    accept_mutex        off;
+    multi_accept        off;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    client_body_temp_path /tmp/client_body;
+    fastcgi_temp_path /tmp/fastcgi_temp;
+    proxy_temp_path /tmp/proxy;
+    scgi_temp_path /tmp/scgi_temp;
+    uwsgi_temp_path /tmp/uwsgi_temp;
+
+    sendfile               ${NGINX_SENDFILE};
+    sendfile_max_chunk     ${NGINX_SENDFILE_MAX_CHUNK};
+    aio                    ${NGINX_AIO};
+    directio               ${NGINX_DIRECTIO};
+
+    client_max_body_size   ${NGINX_CLIENT_MAX_BODY_SIZE};
+    keepalive_timeout      ${NGINX_KEEPALIVE_TIMEOUT};
+    client_body_timeout    ${NGINX_CLIENT_BODY_TIMEOUT};
+    client_header_timeout  ${NGINX_CLIENT_HEADER_TIMEOUT};
+    send_timeout           ${NGINX_SEND_TIMEOUT};
+
+    include servers/*;
+
+    gzip ${NGINX_GZIP};
+    gzip_static ${NGINX_GZIP_STATIC};
+    gzip_vary on;
+    gzip_min_length ${NGINX_GZIP_MIN_LENGTH_BYTES};
+    gzip_disable "msie6";
+    gzip_proxied no-cache no-store private expired auth;
+    gzip_types application/atom+xml application/javascript application/json application/rss+xml
+               application/vnd.ms-fontobject application/x-font-opentype application/x-font-truetype
+               application/x-font-ttf application/x-javascript application/xhtml+xml application/xml
+               font/eot font/opentype font/otf font/truetype image/svg+xml image/vnd.microsoft.icon
+               image/x-icon image/x-win-bitmap text/css text/javascript text/plain text/xml;
+}

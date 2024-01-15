@@ -1,0 +1,34 @@
+server {
+    server_name _;
+    listen 8080 default_server;
+    listen [::]:8080 default_server;
+
+    access_log /dev/stdout;
+    error_log /dev/stdout;
+    proxy_temp_path /tmp/proxy;
+
+    root /opt/app-root/src/web;
+    index index.php index.html index.htm app.php;
+
+    location / {
+        add_header Access-Control-Allow-Origin *;
+        try_files $uri $uri/ /index.php$is_args$args;
+        proxy_temp_path /tmp/proxy;
+    }
+    location ~ \.php$ {
+        proxy_read_timeout 300s;
+        fastcgi_read_timeout 300;
+        try_files $uri /index.php =404;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME /opt/app-root/src/web$fastcgi_script_name;
+        include fastcgi_params;
+        proxy_temp_path /tmp/proxy;
+    }
+
+    location ~* ^.+\.(css|js|ogg|ogv|svg|svgz|eot|otf|woff|woff2|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf|webp)$ {
+        access_log off;
+        log_not_found off;
+        expires 1d;
+    }
+}

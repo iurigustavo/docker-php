@@ -1,0 +1,14 @@
+extension = "newrelic.so"
+
+[newrelic]
+newrelic.enabled = 1
+newrelic.license = "${NEW_RELIC_LICENSE_KEY}"
+newrelic.logfile = "/var/log/newrelic/php_agent.log"
+newrelic.loglevel = "info"
+newrelic.log_limit_in_kbytes = "50000"
+newrelic.appname = "${NEW_RELIC_APPNAME}"
+newrelic.daemon.logfile = "/var/log/newrelic/newrelic-daemon.log"
+newrelic.daemon.loglevel = "info"
+newrelic.error_collector.record_database_errors = 1
+newrelic.browser_monitoring.auto_instrument = 1
+newrelic.transaction_tracer.detail = 1

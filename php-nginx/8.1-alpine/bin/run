@@ -63,6 +63,7 @@ export FPM_MIN_SPARE_SERVERS=${FPM_MIN_SPARE_SERVERS:-4}
 export FPM_MAX_SPARE_SERVERS=${FPM_MAX_SPARE_SERVERS:-11}
 export FPM_MAX_REQUESTS=${FPM_MAX_REQUESTS:-4000}
 export FPM_PROCESS_IDLE_TIMEOUT=${FPM_PROCESS_IDLE_TIMEOUT:-10s}
+export PHP_MAX_EXECUTION_TIME=${PHP_MAX_EXECUTION_TIME:-30}
 envsubst < /opt/app-root/etc/conf.d/php-fpm/pool.conf.template > /etc/php-fpm.d/www.conf
 
 ## OPcache settings
@@ -102,6 +103,8 @@ fi
 
 ## Newrelic
 if [ -n "${NEW_RELIC_LICENSE_KEY}" ] && [ -n "${NEW_RELIC_APPNAME}" ]; then
+    export NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+    export NEW_RELIC_APPNAME=${NEW_RELIC_APPNAME}
     envsubst < /opt/app-root/etc/php.d/newrelic.ini.template > /etc/php/conf.d/newrelic.ini
     newrelic-daemon
 fi

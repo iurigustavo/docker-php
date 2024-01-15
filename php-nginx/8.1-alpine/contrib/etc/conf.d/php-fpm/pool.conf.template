@@ -34,5 +34,6 @@ php_value[opcache.file_cache]  = /tmp/sessions/opcache
 
 php_value[session.save_handler] = memcached
 php_value[session.save_path]    = "127.0.0.1:11211"
+php_value[max_execution_time] = ${PHP_MAX_EXECUTION_TIME}
 
 clear_env = no

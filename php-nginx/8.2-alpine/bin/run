@@ -98,6 +98,8 @@ fi
 
 ## Newrelic
 if [ -n "${NEW_RELIC_LICENSE_KEY}" ] && [ -n "${NEW_RELIC_APPNAME}" ]; then
+    export NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY}
+    export NEW_RELIC_APPNAME=${NEW_RELIC_APPNAME}
     envsubst < /opt/app-root/etc/php.d/newrelic.ini.template > /etc/php/conf.d/newrelic.ini
     newrelic-daemon
 fi
